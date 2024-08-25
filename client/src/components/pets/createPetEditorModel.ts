@@ -8,7 +8,7 @@ export default (ownerId: string, petLoaderPromise: Promise<any>): Promise<any> =
     [fetch(url('/api/pettypes'))
       .then(response => response.json())
       .then(toSelectOptions),
-    fetch(url('/api/owner/' + ownerId))
+    fetch(url('api/owner/' + ownerId))
       .then(response => response.json()),
       petLoaderPromise,
     ]
