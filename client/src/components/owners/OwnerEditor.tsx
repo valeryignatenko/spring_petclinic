@@ -70,7 +70,7 @@ export default class OwnerEditor extends React.Component<IOwnerEditorProps, IOwn
     return (
       <span>
         <h2>New Owner</h2>
-        <form className='form-horizontal' method='POST' action={url('/api/owner')}>
+        <form className='form-horizontal' method='POST' action={url('api/owner')}>
           <div className='form-group has-feedback'>
             <Input object={owner} error={error} constraint={NotEmpty} label='First Name' name='firstName' onChange={this.onInputChange} />
             <Input object={owner} error={error} constraint={NotEmpty} label='Last Name' name='lastName' onChange={this.onInputChange} />
