@@ -38,7 +38,6 @@ public class SwaggerConfig {
 
     @Bean
     OpenAPI customOpenAPI() {
-
         return new OpenAPI().components(new Components()).info(new Info()
                 .title("REST Petclinic backend Api Documentation").version("1.0")
                 .termsOfService("Petclinic backend terms of service")
@@ -49,8 +48,6 @@ public class SwaggerConfig {
 
     private Contact swaggerContact() {
         Contact petclinicContact = new Contact();
-        petclinicContact.setName("Vitaliy Fedoriv");
-        petclinicContact.setEmail("vitaliy.fedoriv@gmail.com");
         petclinicContact.setUrl("https://github.com/spring-petclinic/spring-petclinic-rest");
         return petclinicContact;
     }
