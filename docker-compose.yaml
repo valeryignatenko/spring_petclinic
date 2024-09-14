@@ -1,0 +1,24 @@
+version: '2'
+services:
+  petclinic-server:
+    container_name: petclinic-server
+    build:
+      dockerfile: Dockerfile
+    image: petclinic-server:latest
+    ports:
+      - "9966:9966"
+    networks:
+      - petclinic-spring-cloud-network
+  frontend-service:
+    container_name: frontend-service
+    build:
+      context: client
+      dockerfile: Dockerfile
+    image: frontend-service:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - petclinic-spring-cloud-network
+networks:
+  petclinic-spring-cloud-network:
+    driver: bridge
