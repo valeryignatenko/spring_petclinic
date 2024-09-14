@@ -70,6 +70,7 @@ public class PetRestController implements PetsApi {
     }
 
 
+
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
     public ResponseEntity<PetDto> updatePet(Integer petId, PetDto petDto) {
@@ -84,6 +85,8 @@ public class PetRestController implements PetsApi {
         return new ResponseEntity<>(petMapper.toPetDto(currentPet), HttpStatus.NO_CONTENT);
     }
 
+
+
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override
     public ResponseEntity<PetDto> deletePet(Integer petId) {
@@ -94,6 +97,7 @@ public class PetRestController implements PetsApi {
         this.clinicService.deletePet(pet);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 
     @PreAuthorize("hasRole(@roles.OWNER_ADMIN)")
     @Override

@@ -789,6 +789,173 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RestError'
+  /pets/{petId}:
+    get:
+      tags:
+        - pet
+      operationId: getPet
+      summary: Get a pet by ID
+      description: Returns the pet  or a 404 error.
+      parameters:
+        - name: petId
+          in: path
+          description: The ID of the pet.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        404:
+          description: Pet not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+    put:
+      tags:
+        - pet
+      operationId: updatePet
+      summary: Update a pet by ID
+      description: Returns the pet or a 404 error.
+      parameters:
+        - name: petId
+          in: path
+          description: The ID of the pet.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+      requestBody:
+        description: The pet
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        404:
+          description: Pet not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+    delete:
+      tags:
+        - pet
+      operationId: deletePet
+      summary: Delete a pet by ID
+      description: Returns the pet or a 404 error.
+      parameters:
+        - name: petId
+          in: path
+          description: The ID of the pet.
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            example: 1
+      responses:
+        200:
+          description: Pet details found and returned.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        304:
+          description: Not modified.
+          headers:
+            ETag:
+              description: An ID for this version of the response.
+              schema:
+                type: string
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        404:
+          description: Pet not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
+        500:
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestError'
   /specialties:
     get:
       tags:

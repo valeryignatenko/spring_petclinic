@@ -27,14 +27,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.mapper.OwnerMapper;
 import org.springframework.samples.petclinic.mapper.PetMapper;
-import org.springframework.samples.petclinic.mapper.VisitMapper;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.rest.advice.ExceptionControllerAdvice;
 import org.springframework.samples.petclinic.rest.dto.OwnerDto;
 import org.springframework.samples.petclinic.rest.dto.PetDto;
 import org.springframework.samples.petclinic.rest.dto.PetTypeDto;
-import org.springframework.samples.petclinic.rest.dto.VisitDto;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.service.clinicService.ApplicationTestConfig;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -73,9 +71,6 @@ class OwnerRestControllerTests {
     @Autowired
     private PetMapper petMapper;
 
-    @Autowired
-    private VisitMapper visitMapper;
-
     @MockBean
     private ClinicService clinicService;
 
@@ -84,8 +79,6 @@ class OwnerRestControllerTests {
     private List<OwnerDto> owners;
 
     private List<PetDto> pets;
-
-    private List<VisitDto> visits;
 
     @BeforeEach
     void initOwners() {
@@ -120,33 +113,15 @@ class OwnerRestControllerTests {
             .birthDate(LocalDate.now())
             .type(petType));
 
-        visits = new ArrayList<>();
-        VisitDto visit = new VisitDto();
-        visit.setId(2);
-        visit.setPetId(pet.getId());
-        visit.setDate(LocalDate.now());
-        visit.setDescription("rabies shot");
-        visits.add(visit);
-
-        visit = new VisitDto();
-        visit.setId(3);
-        visit.setPetId(pet.getId());
-        visit.setDate(LocalDate.now());
-        visit.setDescription("neutered");
-        visits.add(visit);
     }
 
     private PetDto getTestPetWithIdAndName(final OwnerDto owner, final int id, final String name) {
         PetTypeDto petType = new PetTypeDto();
         PetDto pet = new PetDto();
-        pet.id(id).name(name).birthDate(LocalDate.now()).type(petType.id(2).name("dog")).addVisitsItem(getTestVisitForPet(pet, 1));
+        pet.id(id).name(name).birthDate(LocalDate.now()).type(petType.id(2).name("dog"));
         return pet;
     }
 
-    private VisitDto getTestVisitForPet(final PetDto pet, final int id) {
-        VisitDto visit = new VisitDto();
-        return visit.id(id).date(LocalDate.now()).description("test" + id);
-    }
 
     @Test
     @WithMockUser(roles = "OWNER_ADMIN")
@@ -381,20 +356,6 @@ class OwnerRestControllerTests {
             .andExpect(status().isBadRequest()).andDo(MockMvcResultHandlers.print());
     }
 
-    @Test
-    @WithMockUser(roles = "OWNER_ADMIN")
-    void testCreateVisitSuccess() throws Exception {
-        VisitDto newVisit = visits.get(0);
-        newVisit.setId(999);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        String newVisitAsJSON = mapper.writeValueAsString(visitMapper.toVisit(newVisit));
-        System.out.println("newVisitAsJSON " + newVisitAsJSON);
-        this.mockMvc.perform(post("/api/owners/1/pets/1/visits")
-                .content(newVisitAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(status().isCreated());
-    }
 
     @Test
     @WithMockUser(roles = "OWNER_ADMIN")

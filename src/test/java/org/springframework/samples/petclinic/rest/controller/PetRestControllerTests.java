@@ -228,7 +228,9 @@ class PetRestControllerTests {
         String newPetAsJSON = mapper.writeValueAsString(newPet);
         given(this.clinicService.findPetById(3)).willReturn(petMapper.toPet(pets.get(0)));
         this.mockMvc.perform(post("/api/pets")
-                .content(newPetAsJSON).accept(MediaType.APPLICATION_JSON_VALUE).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .content(newPetAsJSON)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isOk());
     }
 
