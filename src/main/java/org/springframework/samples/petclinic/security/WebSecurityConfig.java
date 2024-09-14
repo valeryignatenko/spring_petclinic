@@ -28,8 +28,9 @@ public class WebSecurityConfig {
 
     private CorsConfigurationSource apiConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4444"));
+        configuration.setAllowedOrigins(List.of("http://localhost:4444", "http://localhost:3000"));
         configuration.setAllowedMethods(List.of("OPTIONS", "GET","POST","PUT"));
+        configuration.addAllowedHeader("content-type");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
